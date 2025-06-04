@@ -9,7 +9,8 @@ function Perfil() {
   const { pets, loading, error, setPets } = usePetContext();
   const { user } = useAuth();
   const [editingPet, setEditingPet] = useState(null);
-
+  const userPets = pets.filter((pet) => String(pet.userId) === String(user.id));
+  
   const handleEdit = (pet) => {
     setEditingPet(pet);
   };
@@ -17,7 +18,7 @@ function Perfil() {
   if (loading) return <p className="text-center mt-4">Cargando mascotas...</p>;
   if (error) return <p className="text-center mt-4 text-red-500">{error}</p>;
 
-  const userPets = pets.filter((pet) => String(pet.userId) === String(user.id));
+  
 
   return (
     <>

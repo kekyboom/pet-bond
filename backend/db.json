@@ -79,30 +79,6 @@
       "email": "ignacio.castro@example.com",
       "telefono": "+56901234567",
       "password": "nacho123"
-    },
-    {
-      "id": "6e98",
-      "nombre": "Keybel",
-      "apellido": "Lambertus",
-      "telefono": "959483005",
-      "email": "keybellambertus@gmail.com",
-      "password": "123456"
-    },
-    {
-      "id": "62bb",
-      "nombre": "Keybel",
-      "apellido": "Lambertus",
-      "telefono": "959483005",
-      "email": "keybellambertus@gmail.com",
-      "password": "123123"
-    },
-    {
-      "id": "8ca4",
-      "nombre": "Keybel",
-      "apellido": "Lambertus",
-      "telefono": "959483005",
-      "email": "keybellambertus@gmail.com",
-      "password": "123123"
     }
   ],
   "pets": [
@@ -179,7 +155,7 @@
       "caracter": "Activo",
       "estadoSalud": {
         "vacunaAntirrabica": true,
-        "vacunaTripleFelina": false,
+        "vacunaTripleFelina": true,
         "vacunaLeucemia": false,
         "esterilizado": false
       },
