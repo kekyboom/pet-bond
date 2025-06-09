@@ -1,30 +1,16 @@
 import { usePetContext } from "../context/PetContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import femaleIcon from "../assets/img/hembra.png";
 import maleIcon from "../assets/img/macho.png";
 
 
-function PetCard({ pet, editable = false, onEdit, showViewMore = true }) {
-  const { setSelectedPet } = usePetContext();
+function PetCard({ pet, editable = false, onEdit, onDelete, showViewMore = true }) {
+  const { setSelectedPet} = usePetContext();
   const navigate = useNavigate();
-  const { deletePet } = usePetContext();
-  const [isEditing, setIsEditing] = useState(false);
 
-  const handleViewMore = () => {
+   const handleViewMore = () => {
     setSelectedPet(pet);
     navigate("/detalle");
-  };
-
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-
-  const handleDelete = () => {
-    if (confirm(`¿Eliminar a ${pet.nombre}?`)) {
-      deletePet(pet.id);
-    }
   };
 
   return (
@@ -42,7 +28,7 @@ function PetCard({ pet, editable = false, onEdit, showViewMore = true }) {
       <div className="px-4 py-3">
         <div className="flex items-center justify-between">
           <span className="text-gray-400 uppercase text-xs">
-            {pet.edadAnios} años + {pet.edadMeses} meses
+            {pet.edad_anios} años + {pet.edad_meses} meses
           </span>
           {pet.genero === "hembra" ? (
             <img src={femaleIcon} alt="Hembra" className="w-5 h-5" />
@@ -69,7 +55,7 @@ function PetCard({ pet, editable = false, onEdit, showViewMore = true }) {
             <button onClick={() => onEdit(pet)} className="bg-pborange text-white px-4 py-1 rounded">
               Editar
             </button>
-            <button onClick={handleDelete} className="bg-pbblue text-white px-4 py-1 rounded" >
+            <button onClick={() => onDelete(pet)} className="bg-pbblue text-white px-4 py-1 rounded" >
               ¡Fue Adoptado!
             </button>
           </div>

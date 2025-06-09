@@ -1,24 +1,38 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { usePetContext } from "../context/PetContext";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 import PetGrid from "../components/PetGrid";
 import PetCard from "../components/PetCard";
 import EditPet from "../components/EditPet";
 
 function Perfil() {
-  const { pets, loading, error, setPets } = usePetContext();
   const { user } = useAuth();
+  const { pets, loading, error, setPets, updatePet} = usePetContext();
   const [editingPet, setEditingPet] = useState(null);
-  const userPets = pets.filter((pet) => String(pet.userId) === String(user.id));
+   
+  const userPets = useMemo(() => {
+    if (!user || !pets) return[];
+    return pets.filter((pet) => String(pet.user_id) === String(user.id));
+  }, [pets, user]);
   
-  const handleEdit = (pet) => {
+  
+  const handleEdit = useCallback((pet) => {
     setEditingPet(pet);
+  }, []);
+
+  const handleCloseEdit = () => {
+    setEditingPet(null);
   };
+
+  const handleSaveEdit = async (updatedData) => {
+    await updatePet({ ...editingPet, ...updatedData });
+    setEditingPet(null);
+  };
+
 
   if (loading) return <p className="text-center mt-4">Cargando mascotas...</p>;
   if (error) return <p className="text-center mt-4 text-red-500">{error}</p>;
-
-  
 
   return (
     <>
@@ -39,12 +53,17 @@ function Perfil() {
         ) : (
         <PetGrid>
           {userPets.map((pet) => (
-            <PetCard key={pet.id} pet={pet} editable={true} showViewMore={false} onEdit={handleEdit} onDelete={async () => {
+            <PetCard key={pet.id} pet={pet} editable={true} showViewMore={false} onEdit={handleEdit} onDelete={async (pet) => {
               if (window.confirm("¿Seguro que deseas eliminar esta mascota?")) {
-                await fetch(`http://localhost:3001/pets/${pet.id}`, { method: "DELETE" });
-                setPets((prev) => prev.filter((p) => p.id !== pet.id));
+                try {
+                  await axios.delete(`http://localhost:3001/pets/${pet.id}`);
+                  setPets((prev) => prev.filter((p) => p.id !== pet.id));
+                } catch (error) {
+                  alert("Error al eliminar la mascota");
+                  console.error(error);
+                }
               }
-            }}/>
+          }}/>
           ))}
         </PetGrid>
       )}
@@ -55,10 +74,12 @@ function Perfil() {
           <PetCard key={pet.id} pet={pet} />
         ))}
       </PetGrid>
+
+      {/* Modal de edición */}
       {editingPet && (
-        <EditPet pet={editingPet} onClose={() => setEditingPet(null)} onSave={() => setEditingPet(null)} />)}
+        <EditPet pet={editingPet} onClose={handleCloseEdit} onSave={handleSaveEdit}/>
+      )}
     </>
-  );
-}
+  )}
 
 export default Perfil;

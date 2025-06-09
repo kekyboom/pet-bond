@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { usePetContext } from "../context/PetContext";
 
 function EditPet({ pet, onClose, onSave }) {
-  const { updatePet } = usePetContext();
+
   const [formData, setFormData] = useState({
     nombre: pet.nombre || "",
     especie: pet.especie || "",
@@ -23,8 +22,10 @@ function EditPet({ pet, onClose, onSave }) {
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+    setFormData((prev) => ({
+      ...prev, [name]: type === "number" ? Number(value) : value,
+    }));
   };
 
    const handleEstadoSaludChange = (e) => {
@@ -38,10 +39,9 @@ function EditPet({ pet, onClose, onSave }) {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await updatePet({ ...pet, ...formData });
-    onSave(); 
+    onSave(formData);
   };
 
   return (
@@ -74,6 +74,7 @@ function EditPet({ pet, onClose, onSave }) {
           <input type="text" name="region" value={formData.region} onChange={handleChange} placeholder="Región" className="w-full p-2 border rounded rounded border-pbdarkblue" />
 
           <label className="block mb-1 text-sm text-gray-700">Imagen</label> {/*Cambiara de manera distinta */}
+          
           <input type="text" name="imagen" value={formData.imagen} onChange={handleChange} placeholder="URL de la imagen" className="w-full p-2 border rounded rounded border-pbdarkblue" />
           
           <label className="block mb-1 text-sm text-gray-700">Caracter</label>

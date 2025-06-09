@@ -29,7 +29,12 @@ function Publicar() {
   const [edadMeses, setEdadMeses] = useState("");
   const [peso, setPeso] = useState("");
   const [caracter, setCaracter] = useState("");
-  const [salud, setSalud] = useState("");
+  const [estadoSalud, setEstadoSalud] = useState({
+    vacunaAntirrabica: false,
+    vacunaTripleFelina: false,
+    vacunaLeucemia: false,
+    esterilizado: false,
+  });
   const [info, setInfo] = useState("");
   const [error, setError] = useState("");
   const [exito, setExito] = useState(false);
@@ -56,7 +61,7 @@ function Publicar() {
       edadMeses === "" ||
       !peso.trim() ||
       !caracter.trim() ||
-      !salud.trim() ||
+      Object.values(estadoSalud).some(val => val === null || val === undefined) ||
       !info.trim()
     ) {
       setError("Todos los campos son obligatorios.");
@@ -73,13 +78,11 @@ function Publicar() {
         region,
         genero: genero.toLowerCase() === "femenino" ? "hembra" : "macho",
         especie: especie,
-        edad: {
-          anios: Number(edadAnios),
-          meses: Number(edadMeses),
-        },
-        peso: Number(peso),
+        edadAnios: Number(edadAnios),
+        edadMeses: Number(edadMeses),
+        pesoKg: Number(peso),
         caracter,
-        salud,
+        estado_salud,
         info,
         userId,
       };
@@ -222,12 +225,23 @@ function Publicar() {
           </div>
 
           {/* Estado de salud */}
-          <div>
-            <label className="block mb-1 text-sm font-medium text-gray-900">
+          <fieldset className="border p-4 rounded-lg">
+            <legend className="text-sm font-medium mb-2 text-gray-900">
               Estado de salud
-            </label>
-            <textarea value={salud} onChange={(e) => setSalud(e.target.value)} className="w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 text-black" rows={3} placeholder="Describe el estado de salud"/>
-          </div>
+            </legend>
+
+            {[
+              { id: "vac1", label: "Vacuna antirrábica", key: "vacunaAntirrabica" },
+              { id: "vac2", label: "Vacuna triple felina", key: "vacunaTripleFelina" },
+              { id: "vac3", label: "Vacuna leucemia", key: "vacunaLeucemia" },
+              { id: "est",  label: "Esterilizado/a",     key: "esterilizado" },
+            ].map(({ id, label, key }) => (
+              <label key={id} className="flex items-center gap-2 text-gray-700 text-sm">
+                <input id={id} type="checkbox" checked={estadoSalud[key]} onChange={(e) => setEstadoSalud({ ...estadoSalud, [key]: e.target.checked }) } className="size-4 accent-pbfucsia" />
+                {label}
+              </label>
+            ))}
+          </fieldset>
 
           {/* Información adicional */}
           <div>

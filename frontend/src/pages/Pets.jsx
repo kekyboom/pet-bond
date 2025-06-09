@@ -8,11 +8,11 @@ import Filter from "../components/Filters";
 
 function Pets() {
   const location = useLocation();
-  const especie = new URLSearchParams(location.search).get("especie") || "";
-  const { pets, loading, error, fetchPets } = usePetContext();
+  const especie = new URLSearchParams(location.search).get("especie");
+  const { pets, loading, error, loadPets } = usePetContext();
 
   useEffect(() => {
-    fetchPets(especie);
+    loadPets(especie);
   }, [especie]);
 
   if (loading) return <p className="text-center mt-4">Cargando mascotas...</p>;
@@ -30,7 +30,7 @@ function Pets() {
       </div>
       <PetGrid>
         {pets.map((pet) => (
-          <PetCard pet={pet} editable={false} />
+          <PetCard key={pet.id} pet={pet} editable={false} />
         ))}
       </PetGrid>
     </>

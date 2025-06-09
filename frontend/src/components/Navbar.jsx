@@ -12,10 +12,10 @@ function Navbar() {
     <nav className="w-full sticky bg-pbwhite shadow-xl">
       <div className="flex flex-wrap items-center justify-between px-20 py-2">
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-3">
+        <a href="/">
           <img src={logoImg} className="h-40" alt="PetBond Logo" />
-        </Link>
-
+        </a>
+        
         {/* Botón hamburguesa */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}

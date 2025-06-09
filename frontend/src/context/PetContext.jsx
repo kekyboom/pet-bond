@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import {fetchPets, createPet, updatePetById, deletePetById } from "../api/pets";
 
 const PetContext = createContext();
 
@@ -8,92 +9,57 @@ export function PetProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // GET - Obtener mascotas
-  const fetchPets = async (especie = "") => {
+  //Cargar todas las mascotas
+  const loadPets = async (especie) => {
     setLoading(true);
-    try {
-      const url = especie
-        ? `http://localhost:3001/pets?especie=${especie}`
-        : `http://localhost:3001/pets`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Error al cargar mascotas");
-      const data = await res.json();
+    setError(null);
+    try { 
+      const data = await fetchPets(especie);
       setPets(data);
-      setError(null);
     } catch (err) {
-      setError(err.message);
-      setPets([]);
+      setError(err.message || "Error al cargar mascotas");
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchPets();
-  }, []);
-
-  // POST - Agregar mascota
+  ////Agregar nueva mascota
   const addPet = async (newPet) => {
     try {
-      const res = await fetch("http://localhost:3001/pets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newPet),
-      });
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`Error al agregar mascota: ${res.status} ${text}`);
-      }
-      const data = await res.json();
+      const data = await createPet(newPet);
       setPets((prev) => [...prev, data]);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Error al agregar mascota");
       throw err;
     }
   };
 
-  // PUT - Actualizar mascota
+  //Modificar mascota
   const updatePet = async (updatedPet) => {
-    if (!updatedPet.id) throw new Error("ID de mascota inválido");
-
     try {
-      const res = await fetch(`http://localhost:3001/pets/${updatedPet.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedPet),
-      });
-
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`Error al actualizar mascota: ${res.status} ${text}`);
-      }
-
-      const data = await res.json();
-      setPets((prev) =>
-        prev.map((pet) => (pet.id === data.id ? data : pet))
-      );
+      const data = await updatePetById(updatedPet);
+      setPets((prev) => prev.map((pet) => (pet.id === data.id ? data : pet)));
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Error al actualizar mascota");
       throw err;
     }
   };
 
-  // DELETE - Eliminar mascota
+  //Eliminar Mascota
   const deletePet = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3001/pets/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(`Error al eliminar mascota: ${res.status} ${text}`);
-      }
+      await deletePetById(id);
       setPets((prev) => prev.filter((pet) => pet.id !== id));
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Error al eliminar mascota");
       throw err;
     }
   };
+
+  useEffect(() => {
+    loadPets();
+  }, []);
+
 
   return (
     <PetContext.Provider
@@ -104,7 +70,7 @@ export function PetProvider({ children }) {
         setSelectedPet,
         loading,
         error,
-        fetchPets,
+        loadPets,
         addPet,
         updatePet,
         deletePet,

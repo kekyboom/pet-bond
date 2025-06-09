@@ -9,7 +9,7 @@ import PetDetails from "./pages/PetDetails.jsx";
 import Perfil from "./pages/Perfil.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
-
+import PrivateRoute from "./components/PrivateRoute.jsx";
 
 function App() {
   const location = useLocation();
@@ -23,10 +23,10 @@ function App() {
         <Route path="/" element={<Inicio/>}/>
         <Route path="/registro" element={<RegisterPage/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/publicar" element={<Publicar/>}/>
+        <Route path="/publicar" element={ <PrivateRoute><Publicar/></PrivateRoute>}/>
         <Route path="/mascotas" element={<Pets/>}/>
         <Route path="/detalle" element={<PetDetails/>}/>
-        <Route path="/perfil" element={<Perfil/>}/>
+        <Route path="/perfil" element={ <PrivateRoute><Perfil/></PrivateRoute>}/>
       </Routes>
       <Footer/>
     </>

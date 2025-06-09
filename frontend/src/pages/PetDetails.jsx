@@ -17,9 +17,9 @@ function Detalle() {
   if (!selectedPet) return null;
 
   return (
-    <div className="max-w-6xl mx-auto p-8">
+    <div className="max-w-6xl mx-auto p-16">
       <div className="mb-6">
-        <img src={selectedPet.imagen} alt={selectedPet.nombre} className="w-full max-h-[400px] object-cover rounded-2xl"/>
+        <img src={selectedPet.imagen} alt={selectedPet.nombre} className="w-full max-h-[800px] object-cover rounded-2xl"/>
       </div>
 
       <div className="grid md:grid-cols-3 gap-10">
@@ -33,9 +33,9 @@ function Detalle() {
             <div>Peso</div>
           </div>
           <div className="grid grid-cols-3 gap-4 text-base text-gray-800 border-b pb-4 capitalize">
-            <div>{selectedPet.edadAnios} año y {selectedPet.edadMeses} meses</div>
+            <div>{selectedPet.edad_anios} año y {selectedPet.edad_meses} meses</div>
             <div>{selectedPet.genero}</div>
-            <div>{selectedPet.pesoKg} kg</div>
+            <div>{selectedPet.peso_kg} kg</div>
           </div>
 
           <div>
@@ -45,12 +45,12 @@ function Detalle() {
 
           <div>
             <h3 className="text-sm font-semibold text-gray-500 uppercase mb-1">Estado de salud</h3>
-            {selectedPet.estadoSalud ? (
+            {selectedPet.estado_salud ? (
               <ul className="text-gray-800 border-b pb-4 list-disc list-inside space-y-1">
-                <li>Vacuna Antirrábica: {selectedPet.estadoSalud.vacunaAntirrabica ? 'Sí' : 'No'}</li>
-                <li>Vacuna Triple Felina: {selectedPet.estadoSalud.vacunaTripleFelina ? 'Sí' : 'No'}</li>
-                <li>Vacuna Leucemia: {selectedPet.estadoSalud.vacunaLeucemia ? 'Sí' : 'No'}</li>
-                <li>Esterilizado: {selectedPet.estadoSalud.esterilizado ? 'Sí' : 'No'}</li>
+                <li>Vacuna Antirrábica: {selectedPet.estado_salud.vacunaAntirrabica ? 'Sí' : 'No'}</li>
+                <li>Vacuna Triple Felina: {selectedPet.estado_salud.vacunaTripleFelina ? 'Sí' : 'No'}</li>
+                <li>Vacuna Leucemia: {selectedPet.estado_salud.vacunaLeucemia ? 'Sí' : 'No'}</li>
+                <li>Esterilizado: {selectedPet.estado_salud.esterilizado ? 'Sí' : 'No'}</li>
               </ul>
             ) : (
               <p className="text-gray-800 border-b pb-4">Sin información</p>
