@@ -1,0 +1,34 @@
+# Node modules (no subir la carpeta con dependencias)
+node_modules/
+
+# Archivos de logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Carpetas de salida (builds)
+dist/
+build/
+
+# Archivos de entorno con datos sensibles
+.env
+.env.local
+.env.*.local
+
+# Carpeta donde guardas uploads (si quieres ignorarla)
+uploads/
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Cobertura de tests
+coverage/
+
+# Archivos temporales
+*.tmp
+*.temp
