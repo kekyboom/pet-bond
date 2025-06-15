@@ -1,0 +1,286 @@
+{
+  "usuarios": [
+    {
+      "id": "1",
+      "nombre": "Keybel",
+      "apellido": "Lambertus",
+      "email": "keybellambertus@gmail.com",
+      "telefono": "+56912345678",
+      "password": "123456"
+    },
+    {
+      "id": "2",
+      "nombre": "Javier",
+      "apellido": "Morales",
+      "email": "javier.morales@example.com",
+      "telefono": "+56923456789",
+      "password": "javier456"
+    },
+    {
+      "id": "3",
+      "nombre": "Martina",
+      "apellido": "Reyes",
+      "email": "martina.reyes@example.com",
+      "telefono": "+56934567890",
+      "password": "martina789"
+    },
+    {
+      "id": "4",
+      "nombre": "Tomás",
+      "apellido": "Rivas",
+      "email": "tomas.rivas@example.com",
+      "telefono": "+56945678901",
+      "password": "tomas321"
+    },
+    {
+      "id": "5",
+      "nombre": "Fernanda",
+      "apellido": "Díaz",
+      "email": "fernanda.diaz@example.com",
+      "telefono": "+56956789012",
+      "password": "fer456"
+    },
+    {
+      "id": "6",
+      "nombre": "Diego",
+      "apellido": "Muñoz",
+      "email": "diego.munoz@example.com",
+      "telefono": "+56967890123",
+      "password": "diego123"
+    },
+    {
+      "id": "7",
+      "nombre": "Valentina",
+      "apellido": "Pérez",
+      "email": "valentina.perez@example.com",
+      "telefono": "+56978901234",
+      "password": "valen321"
+    },
+    {
+      "id": "8",
+      "nombre": "Sebastián",
+      "apellido": "Gómez",
+      "email": "sebastian.gomez@example.com",
+      "telefono": "+56989012345",
+      "password": "sebas456"
+    },
+    {
+      "id": "9",
+      "nombre": "Antonia",
+      "apellido": "Ramírez",
+      "email": "antonia.ramirez@example.com",
+      "telefono": "+56990123456",
+      "password": "antonia789"
+    },
+    {
+      "id": "10",
+      "nombre": "Ignacio",
+      "apellido": "Castro",
+      "email": "ignacio.castro@example.com",
+      "telefono": "+56901234567",
+      "password": "nacho123"
+    }
+  ],
+  "pets": [
+    {
+      "id": "1",
+      "nombre": "Manchas",
+      "especie": "perro",
+      "edadAnios": 2,
+      "edadMeses": 2,
+      "genero": "hembra",
+      "pesoKg": 12,
+      "region": "Metropolitana",
+      "imagen": "https://qpwebsite.s3.amazonaws.com/uploads/2023/06/351331602_9870519386322244_4160722249840609631_n.jpg",
+      "caracter": "juguetona",
+      "estadoSalud": {
+        "vacunaAntirrabica": true,
+        "vacunaTripleFelina": false,
+        "vacunaLeucemia": false,
+        "esterilizado": true
+      },
+      "historia": "Fue encontrada en una plaza junto a sus hermanitos.",
+      "userId": 1
+    },
+    {
+      "id": "2",
+      "nombre": "Firulais",
+      "especie": "perro",
+      "edadAnios": 5,
+      "edadMeses": 0,
+      "genero": "macho",
+      "pesoKg": 20,
+      "region": "Valparaíso",
+      "imagen": "https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=800&q=80",
+      "caracter": "tranquilo",
+      "estadoSalud": {
+        "vacunaAntirrabica": true,
+        "vacunaTripleFelina": false,
+        "vacunaLeucemia": false,
+        "esterilizado": false
+      },
+      "historia": "Fue abandonado en una carretera y rescatado por voluntarios.",
+      "userId": 2
+    },
+    {
+      "id": "3",
+      "nombre": "Misu",
+      "especie": "gato",
+      "edadAnios": 1,
+      "edadMeses": 6,
+      "genero": "macho",
+      "pesoKg": 4,
+      "region": "Biobío",
+      "imagen": "https://encrypted-tbn0.gstatic.com/imagens?q=tbn:ANd9GcSh4P9BhkEEGgEjmN065SgjspKPX1hYP61EtQ&s",
+      "caracter": "cariñosa",
+      "estadoSalud": {
+        "vacunaAntirrabica": true,
+        "vacunaTripleFelina": true,
+        "vacunaLeucemia": true,
+        "esterilizado": true
+      },
+      "historia": "Vivía en una bodega abandonada.",
+      "userId": 5
+    },
+    {
+      "id": "4",
+      "nombre": "Toby",
+      "especie": "perro",
+      "edadAnios": 2,
+      "edadMeses": 6,
+      "genero": "macho",
+      "pesoKg": 10,
+      "region": "Biobío",
+      "imagen": "https://media.es.wired.com/photos/65e8fe6a50a0805baa05e689/4:3/w_2664,h_1998,c_limit/perro%20mas%20listo.jpg",
+      "caracter": "cariñoso",
+      "estadoSalud": {
+        "vacunaAntirrabica": true,
+        "vacunaTripleFelina": false,
+        "vacunaLeucemia": false,
+        "esterilizado": false
+      },
+      "historia": "Fue encontrado cerca de una feria buscando comida.",
+      "userId": 1
+    },
+    {
+      "id": "5",
+      "nombre": "Luna",
+      "especie": "gato",
+      "edadAnios": 2,
+      "edadMeses": 0,
+      "genero": "hembra",
+      "pesoKg": 3.5,
+      "region": "Coquimbo",
+      "imagen": "https://media.istockphoto.com/id/524881044/es/foto/linda-orange-cat.jpg?s=612x612&w=0&k=20&c=THfARSKqH2bkx11s4nG7AvsDeB0oQ0C80AHyn617-SA=",
+      "caracter": "independiente",
+      "estadoSalud": {
+        "vacunaAntirrabica": false,
+        "vacunaTripleFelina": true,
+        "vacunaLeucemia": false,
+        "esterilizado": true
+      },
+      "historia": "Fue dejada en una caja frente a una veterinaria.",
+      "userId": 4
+    },
+    {
+      "id": "6",
+      "nombre": "Coco",
+      "especie": "perro",
+      "edadAnios": 1,
+      "edadMeses": 2,
+      "genero": "macho",
+      "pesoKg": 9,
+      "region": "Antofagasta",
+      "imagen": "https://placedog.net/500/400?id=6",
+      "caracter": "travieso",
+      "estadoSalud": {
+        "vacunaAntirrabica": false,
+        "vacunaTripleFelina": false,
+        "vacunaLeucemia": false,
+        "esterilizado": false
+      },
+      "historia": "Fue rescatado de un basural junto a su madre.",
+      "userId": 3
+    },
+    {
+      "id": "7",
+      "nombre": "Nina",
+      "especie": "gato",
+      "edadAnios": 3,
+      "edadMeses": 1,
+      "genero": "hembra",
+      "pesoKg": 4.2,
+      "region": "Maule",
+      "imagen": "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "caracter": "curiosa",
+      "estadoSalud": {
+        "vacunaAntirrabica": true,
+        "vacunaTripleFelina": true,
+        "vacunaLeucemia": true,
+        "esterilizado": false
+      },
+      "historia": "Vivía en un taller mecánico.",
+      "userId": 2
+    },
+    {
+      "id": "8",
+      "nombre": "Simba",
+      "especie": "perro",
+      "edadAnios": 4,
+      "edadMeses": 0,
+      "genero": "macho",
+      "pesoKg": 18,
+      "region": "O'Higgins",
+      "imagen": "https://placedog.net/500/400?id=8",
+      "caracter": "protector",
+      "estadoSalud": {
+        "vacunaAntirrabica": true,
+        "vacunaTripleFelina": false,
+        "vacunaLeucemia": false,
+        "esterilizado": true
+      },
+      "historia": "Fue entregado por una familia que no podía cuidarlo más.",
+      "userId": 5
+    },
+    {
+      "id": "9",
+      "nombre": "Kira",
+      "especie": "gato",
+      "edadAnios": 1,
+      "edadMeses": 4,
+      "genero": "hembra",
+      "pesoKg": 3.8,
+      "region": "Los Lagos",
+      "imagen": "https://images.pexels.com/photos/177809/pexels-photo-177809.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "caracter": "tierna",
+      "estadoSalud": {
+        "vacunaAntirrabica": true,
+        "vacunaTripleFelina": true,
+        "vacunaLeucemia": false,
+        "esterilizado": false
+      },
+      "historia": "Fue encontrada en una caja en un parque.",
+      "userId": 8
+    },
+    {
+      "id": "10",
+      "nombre": "Thor",
+      "especie": "perro",
+      "edadAnios": 6,
+      "edadMeses": 0,
+      "genero": "macho",
+      "pesoKg": 22,
+      "region": "Magallanes",
+      "imagen": "https://placedog.net/500/400?id=10",
+      "caracter": "leal",
+      "estadoSalud": {
+        "vacunaAntirrabica": false,
+        "vacunaTripleFelina": false,
+        "vacunaLeucemia": false,
+        "esterilizado": true
+      },
+      "historia": "Fue rescatado tras un temporal en la zona sur.",
+      "userId": 10
+    }
+  ]
+}

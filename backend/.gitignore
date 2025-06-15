@@ -1,0 +1,20 @@
+# Node modules (no subir la carpeta con dependencias)
+node_modules
+
+# Archivos de logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# Archivos de entorno con datos sensibles
+.env
+
+# Cobertura de tests
+coverage/
+
+# Archivos temporales
+*.tmp
+*.temp
