@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     try {
@@ -26,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   // login
   const login = async (email, password) => {
     try {
-      const res = await axios.post("http://localhost:3001/login", { email, password });
+      const res = await axios.post(`${baseUrl}/login`, { email, password });
       const { token, user } = res.data;
 
       localStorage.setItem("token", token);
@@ -53,7 +54,7 @@ export const AuthProvider = ({ children }) => {
   // register
   const register = async (newUser) => {
     try {
-      const res = await axios.post("http://localhost:3001/usuarios", newUser, {
+      const res = await axios.post(`${baseUrl}/usuarios`, newUser, {
         headers: { "Content-Type": "application/json" },
       });
 

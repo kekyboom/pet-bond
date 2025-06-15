@@ -86,7 +86,7 @@ function Publicar() {
 
       const token = localStorage.getItem("token");
 
-      await axios.post("http://localhost:3001/pets", formData, {
+      await axios.post("/pets", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

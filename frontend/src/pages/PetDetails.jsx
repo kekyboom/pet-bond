@@ -1,12 +1,14 @@
 import { usePetContext } from '../context/PetContext';
-import { useNavigate } from 'react-router-dom';
+import { Form, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ModalContacto from '../components/ModalContacto';
+
 
 function Detalle() {
   const { selectedPet } = usePetContext();
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     if (!selectedPet) {
@@ -19,7 +21,7 @@ function Detalle() {
   return (
     <div className="max-w-6xl mx-auto p-16">
       <div className="mb-6">
-        <img src={`http://localhost:3001${selectedPet.imagen}`} alt={selectedPet.nombre} className="w-full max-h-[800px] object-cover rounded-2xl"/>
+        <img src={`${baseUrl}${selectedPet.imagen}`} alt={selectedPet.nombre} className="w-full max-h-[800px] object-cover rounded-2xl"/>
       </div>
 
       <div className="grid md:grid-cols-3 gap-10">

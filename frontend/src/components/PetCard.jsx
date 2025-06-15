@@ -7,6 +7,7 @@ import maleIcon from "../assets/img/macho.png";
 function PetCard({ pet, editable = false, onEdit, onDelete, showViewMore = true }) {
   const { setSelectedPet} = usePetContext();
   const navigate = useNavigate();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
    const handleViewMore = () => {
     setSelectedPet(pet);
@@ -16,7 +17,7 @@ function PetCard({ pet, editable = false, onEdit, onDelete, showViewMore = true 
   return (
     <div className="w-full max-w bg-white shadow-md rounded-xl duration-500 hover:scale-102 hover:shadow-xl relative">
       <div className="relative w-full">
-        <img src={`http://localhost:3001${pet.imagen}`} alt={`Foto de ${pet.nombre}`} className="h-80 w-full object-cover rounded-t-xl"/>
+        <img src={`${baseUrl}${pet.imagen}`} alt={`Foto de ${pet.nombre}`} className="h-80 w-full object-cover rounded-t-xl"/>
         <div className="absolute top-0 left-0 rounded-br-xl">
           <div className="bg-pbfucsia opacity-75 w-full h-full absolute rounded-br-md rounded-tl-xl" />
           <p className="relative uppercase text-white font-bold text-sm p-3">
