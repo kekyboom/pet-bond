@@ -3,7 +3,7 @@ function PetGrid({children}) {
   return (
       
       <div>
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 px-16 pb-20 container mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 px-16 pb-20 container">
           {children}
         </div>
       </div>   
