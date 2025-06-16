@@ -58,7 +58,7 @@ function Perfil() {
             <PetCard key={pet.id} pet={pet} editable={true} showViewMore={false} onEdit={handleEdit} onDelete={async (pet) => {
               if (window.confirm("¿Seguro que deseas eliminar esta mascota?")) {
                 try {
-                  await axios.delete(`${baseUrl}}/pets/${pet.id}`);
+                  await axios.delete(`${baseUrl}/pets/${pet.id}`);
                   setPets((prev) => prev.filter((p) => p.id !== pet.id));
                 } catch (error) {
                   alert("Error al eliminar la mascota");

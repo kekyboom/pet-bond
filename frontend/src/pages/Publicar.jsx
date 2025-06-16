@@ -42,7 +42,8 @@ function Publicar() {
 
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user?.id;
-
+  const baseUrl = import.meta.env.VITE_BASE_URL;
+  
   const handleImageChange = (e) => {
     setImagen(e.target.files[0]);
   };
@@ -85,8 +86,9 @@ function Publicar() {
       });
 
       const token = localStorage.getItem("token");
+      
 
-      await axios.post("/pets", formData, {
+      await axios.post(`${baseUrl}/pets`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
