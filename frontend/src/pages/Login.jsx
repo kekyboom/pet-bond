@@ -65,9 +65,9 @@ const Login = () => {
 
           <p className="text-center text-sm text-gray-700 pt-2">
             ¿No tienes una cuenta?{" "}
-            <a className="text-pbfucsia hover:underline" href="/registro">
+            <Link to="/registro">
               Regístrate
-            </a>
+            </Link>
           </p>
         </form>
       </div>
