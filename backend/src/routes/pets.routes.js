@@ -9,8 +9,7 @@ const router = Router();
 
 router.get("/", fetchPets);
 router.get("/user",verifyToken, getPetsByUser)
-router.put("/:id",verifyToken, validatePetFields, updatePetById);
-router.delete("/:id",verifyToken, deletePetById);
+router.put("/:id", verifyToken, upload.single("imagen"), validatePetFields, updatePetById);router.delete("/:id",verifyToken, deletePetById);
 router.post("/", verifyToken, upload.single("imagen"), validatePetFields, addPet);
 
 export default router;

@@ -1,16 +1,15 @@
 import { useState } from "react";
 
-function EditPet({ pet, onClose, onSave }) {
-
+function EditPet({ pet, user, onClose, onSave }) {
   const [formData, setFormData] = useState({
     nombre: pet.nombre || "",
     especie: pet.especie || "",
-    edadAnios: pet.edadAnios || 0,
-    edadMeses: pet.edadMeses || 0,
+    edadAnios: pet.edad_anios || 0,
+    edadMeses: pet.edad_meses || 0,
     genero: pet.genero || "",
-    pesoKg: pet.pesoKg || 0,
+    pesoKg: pet.peso_kg || 0,
     region: pet.region || "",
-    imagen: pet.imagen || "",
+    imagen: null, 
     caracter: pet.caracter || "",
     estadoSalud: {
       vacunaAntirrabica: pet.estadoSalud?.vacunaAntirrabica || false,
@@ -21,14 +20,17 @@ function EditPet({ pet, onClose, onSave }) {
     historia: pet.historia || "",
   });
 
+  const [imagenPreview, setImagenPreview] = useState(pet.imagen || "");
+
   const handleChange = (e) => {
     const { name, value, type } = e.target;
     setFormData((prev) => ({
-      ...prev, [name]: type === "number" ? Number(value) : value,
+      ...prev,
+      [name]: type === "number" ? Number(value) : value,
     }));
   };
 
-   const handleEstadoSaludChange = (e) => {
+  const handleEstadoSaludChange = (e) => {
     const { name, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -39,9 +41,46 @@ function EditPet({ pet, onClose, onSave }) {
     }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prev) => ({ ...prev, imagen: file }));
+
+    // Mostrar preview
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagenPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData);
+    
+    const data = new FormData();
+
+    data.append("nombre", formData.nombre);
+    data.append("especie", formData.especie);
+    data.append("edad_anios", formData.edadAnios);
+    data.append("edad_meses", formData.edadMeses);
+    data.append("genero", formData.genero);
+    data.append("peso_kg", formData.pesoKg);
+    data.append("region", formData.region);
+    data.append("caracter", formData.caracter);
+    data.append("historia", formData.historia);
+    data.append("user_id", user.id);
+
+
+    // Estado de salud 
+    data.append("estado_salud", JSON.stringify(formData.estadoSalud));
+
+    // Imagen 
+    if (formData.imagen) {
+      data.append("imagen", formData.imagen);
+    }
+
+    onSave(data);
   };
 
   return (
@@ -49,49 +88,51 @@ function EditPet({ pet, onClose, onSave }) {
       <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-lg overflow-auto max-h-[90vh]">
         <h2 className="text-xl font-bold mb-4">Editar Mascota</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          
-          {/* Texto y números */}
-          <label className="block mb-1 text-sm text-gray-700 ">Nombre</label>
-          <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} placeholder="Nombre" className="w-full p-2 border rounded " />
-          <label className="block mb-1 text-sm text-gray-700">Tipo</label>
-          <input type="text" name="especie" value={formData.especie} onChange={handleChange} placeholder="Especie" className="w-full p-2 border rounded rounded border-pbdarkblue" />
-          <label className="block mb-1 text-sm text-gray-700">Años</label>
-          <input type="number" name="edadAnios" value={formData.edadAnios} onChange={handleChange} placeholder="Años" className="w-full p-2 border rounded rounded border-pbdarkblue" />
-          <label className="block mb-1 text-sm text-gray-700">Meses</label>
-          <input type="number" name="edadMeses" value={formData.edadMeses} onChange={handleChange} placeholder="Meses" className="w-full p-2 border rounded rounded border-pbdarkblue" />
-          
-          <label className="block mb-1 text-sm text-gray-700">Género</label>
-          <select name="genero" value={formData.genero} onChange={handleChange} className="w-full p-2 border rounded rounded border-pbdarkblue">
+          <label className="block text-sm">Nombre</label>
+          <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} className="w-full p-2 border rounded" />
+
+          <label className="block text-sm">Especie</label>
+          <input type="text" name="especie" value={formData.especie} onChange={handleChange} className="w-full p-2 border rounded" />
+
+          <label className="block text-sm">Edad (años)</label>
+          <input type="number" name="edadAnios" value={formData.edadAnios} onChange={handleChange} className="w-full p-2 border rounded" />
+
+          <label className="block text-sm">Edad (meses)</label>
+          <input type="number" name="edadMeses" value={formData.edadMeses} onChange={handleChange} className="w-full p-2 border rounded" />
+
+          <label className="block text-sm">Género</label>
+          <select name="genero" value={formData.genero} onChange={handleChange} className="w-full p-2 border rounded">
             <option value="">Selecciona género</option>
             <option value="macho">Macho</option>
             <option value="hembra">Hembra</option>
           </select>
 
-          <label className="block mb-1 text-sm text-gray-700">Peso Kg</label>
-          <input type="number" name="pesoKg" value={formData.pesoKg} onChange={handleChange} placeholder="Peso (kg)" className="w-full p-2 border rounded rounded border-pbdarkblue" />
+          <label className="block text-sm">Peso (kg)</label>
+          <input type="number" name="pesoKg" value={formData.pesoKg} onChange={handleChange} className="w-full p-2 border rounded" />
 
-          <label className="block mb-1 text-sm text-gray-700">Ubicación</label>
-          <input type="text" name="region" value={formData.region} onChange={handleChange} placeholder="Región" className="w-full p-2 border rounded rounded border-pbdarkblue" />
+          <label className="block text-sm">Región</label>
+          <input type="text" name="region" value={formData.region} onChange={handleChange} className="w-full p-2 border rounded" />
 
-          <label className="block mb-1 text-sm text-gray-700">Imagen</label> {/*Cambiara de manera distinta */}
-          
-          <input type="text" name="imagen" value={formData.imagen} onChange={handleChange} placeholder="URL de la imagen" className="w-full p-2 border rounded rounded border-pbdarkblue" />
-          
-          <label className="block mb-1 text-sm text-gray-700">Caracter</label>
-          <input type="text" name="caracter" value={formData.caracter} onChange={handleChange} placeholder="Carácter" className="w-full p-2 border rounded border-pbdarkblue" />
-          
-          <label className="block mb-1 text-sm text-gray-700">Su Historia</label>
-          <textarea name="historia" value={formData.historia} onChange={handleChange} placeholder="Historia" className="w-full p-2 border rounded border-pbdarkblue" rows={3} />
+          <label className="block text-sm">Imagen</label>
+          {imagenPreview && (
+            <img src={imagenPreview} alt="preview" className="w-full h-40 object-cover mb-2 rounded" />
+          )}
+          <input type="file" name="imagen" accept="image/*" onChange={handleImageChange} className="w-full p-2 border rounded" />
 
-          {/* Checkboxes para estadoSalud */}
-          <fieldset className="border p-2 rounded border border-pbdarkblue">
+          <label className="block text-sm">Carácter</label>
+          <input type="text" name="caracter" value={formData.caracter} onChange={handleChange} className="w-full p-2 border rounded" />
+
+          <label className="block text-sm">Historia</label>
+          <textarea name="historia" value={formData.historia} onChange={handleChange} className="w-full p-2 border rounded" rows={3} />
+
+          <fieldset className="border p-2 rounded">
             <legend className="font-semibold mb-2">Estado de Salud</legend>
             <label className="flex items-center gap-2">
-              <input type="checkbox" name="vacunaAntirrabica" checked={formData.estadoSalud.vacunaAntirrabica} onChange={handleEstadoSaludChange}/>
+              <input type="checkbox" name="vacunaAntirrabica" checked={formData.estadoSalud.vacunaAntirrabica} onChange={handleEstadoSaludChange} />
               Vacuna Antirrábica
             </label>
             <label className="flex items-center gap-2">
-              <input type="checkbox" name="vacunaTripleFelina" checked={formData.estadoSalud.vacunaTripleFelina} onChange={handleEstadoSaludChange}/>
+              <input type="checkbox" name="vacunaTripleFelina" checked={formData.estadoSalud.vacunaTripleFelina} onChange={handleEstadoSaludChange} />
               Vacuna Triple Felina
             </label>
             <label className="flex items-center gap-2">
@@ -99,18 +140,14 @@ function EditPet({ pet, onClose, onSave }) {
               Vacuna Leucemia
             </label>
             <label className="flex items-center gap-2">
-              <input  type="checkbox" name="esterilizado" checked={formData.estadoSalud.esterilizado} onChange={handleEstadoSaludChange} />
+              <input type="checkbox" name="esterilizado" checked={formData.estadoSalud.esterilizado} onChange={handleEstadoSaludChange} />
               Esterilizado
             </label>
           </fieldset>
 
           <div className="flex justify-center pt-4 gap-4">
-            <button type="submit" className="bg-pbblue text-white px-4 rounded">
-              Guardar
-            </button>
-            <button type="button" onClick={onClose} className="bg-pborange text-white px-4 py-2 rounded">
-              Cancelar
-            </button>
+            <button type="submit" className="bg-pbblue text-white px-4 rounded">Guardar</button>
+            <button type="button" onClick={onClose} className="bg-pborange text-white px-4 rounded">Cancelar</button>
           </div>
         </form>
       </div>

@@ -21,7 +21,7 @@ function Detalle() {
   return (
     <div className="max-w-6xl mx-auto p-16">
       <div className="mb-6">
-        <img src={`${baseUrl}${selectedPet.imagen}`} alt={selectedPet.nombre} className="w-full max-h-[800px] object-cover rounded-2xl"/>
+         <img src={selectedPet.imagen.startsWith("http") ? selectedPet.imagen : `${baseUrl}${selectedPet.imagen}`} alt={`Foto de ${selectedPet.nombre}`} className="w-full max-h-[800px] object-cover rounded-2xl"/>
       </div>
 
       <div className="grid md:grid-cols-3 gap-10">

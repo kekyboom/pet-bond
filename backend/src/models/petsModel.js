@@ -62,17 +62,17 @@ export const createPet = async (pet) => {
 
 // Actualizar mascota
 export const updatePet = async (id, pet) => {
-  const {
+    const {
     nombre,
     especie,
-    edadAnios,
-    edadMeses,
+    edad_anios,
+    edad_meses,
     genero,
-    pesoKg,
+    peso_kg,
     region,
     imagen,
     caracter,
-    estadoSalud,
+    estado_salud,
     historia,
     user_id,
   } = pet;
@@ -86,7 +86,7 @@ export const updatePet = async (id, pet) => {
       genero = $5,
       peso_kg = $6,
       region = $7,
-      imagen = $8,
+      imagen = COALESCE($8, imagen),
       caracter = $9,
       estado_salud = $10,
       historia = $11,
@@ -95,22 +95,21 @@ export const updatePet = async (id, pet) => {
     RETURNING *;
   `;
 
-  const values = [
+    const values = [
     nombre,
     especie,
-    edadAnios,
-    edadMeses,
+    edad_anios,
+    edad_meses,
     genero,
-    pesoKg,
+    peso_kg,
     region,
     imagen,
     caracter,
-    JSON.stringify(estadoSalud),
+    JSON.stringify(estado_salud),
     historia,
     user_id,
     id,
   ];
-
   const { rows } = await pool.query(query, values);
   return rows[0];
 };

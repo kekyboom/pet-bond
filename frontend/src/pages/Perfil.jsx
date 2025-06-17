@@ -7,7 +7,7 @@ import PetCard from "../components/PetCard";
 import EditPet from "../components/EditPet";
 
 function Perfil() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const { pets, loading, error, setPets, updatePet} = usePetContext();
   const [editingPet, setEditingPet] = useState(null);
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -27,11 +27,28 @@ function Perfil() {
     setEditingPet(null);
   };
 
-  const handleSaveEdit = async (updatedData) => {
-    await updatePet({ ...editingPet, ...updatedData });
-    setEditingPet(null);
-  };
+  const handleSaveEdit = async (formData) => {
+  try {
+    const response = await axios.put(
+      `${baseUrl}/pets/${editingPet.id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
+  setPets((prev) =>
+        prev.map((pet) => (pet.id === editingPet.id ? response.data : pet))
+      );
+      setEditingPet(null);
+    } catch (error) {
+      console.error("Error al actualizar la mascota:", error.response?.data || error.message);
+      alert("Error al guardar los cambios");
+    }
+  };
 
   if (loading) return <p className="text-center mt-4">Cargando mascotas...</p>;
   if (error) return <p className="text-center mt-4 text-red-500">{error}</p>;
@@ -58,7 +75,11 @@ function Perfil() {
             <PetCard key={pet.id} pet={pet} editable={true} showViewMore={false} onEdit={handleEdit} onDelete={async (pet) => {
               if (window.confirm("¿Seguro que deseas eliminar esta mascota?")) {
                 try {
-                  await axios.delete(`${baseUrl}/pets/${pet.id}`);
+                  await axios.delete(`${baseUrl}/pets/${pet.id}`, {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                  });
                   setPets((prev) => prev.filter((p) => p.id !== pet.id));
                 } catch (error) {
                   alert("Error al eliminar la mascota");
@@ -79,7 +100,7 @@ function Perfil() {
 
       {/* Modal de edición */}
       {editingPet && (
-        <EditPet pet={editingPet} onClose={handleCloseEdit} onSave={handleSaveEdit}/>
+        <EditPet pet={editingPet} user={user} onClose={handleCloseEdit} onSave={handleSaveEdit}/>
       )}
     </>
   )}

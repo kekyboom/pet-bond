@@ -1,46 +1,56 @@
 export const validatePetFields = (req, res, next) => {
+  console.log("Middleware validatePetFields - req.body:", req.body);
+  console.log("Middleware validatePetFields - req.file:", req.file);
+
   const {
     nombre,
     especie,
-    edadAnios,
-    edadMeses,
+    edad_anios,
+    edad_meses,
     genero,
-    pesoKg,
+    peso_kg,
     region,
     caracter,
-    info,
-    userId,
+    historia,
+    userId, 
   } = req.body;
+
+  
+  const user_id = userId || req.userId;
+
+  const isPost = req.method === "POST";
 
   if (
     !nombre ||
     !especie ||
-    edadAnios == null ||
-    edadMeses == null ||
+    edad_anios == null ||
+    edad_meses == null ||
     !genero ||
-    pesoKg == null ||
+    peso_kg == null ||
     !region ||
     !caracter ||
-    !info ||
-    !userId ||
-    !req.file 
+    !historia ||
+    !user_id ||
+    (isPost && !req.file) 
   ) {
     return res.status(400).json({ message: "Faltan campos obligatorios" });
   }
 
-  const estadoSalud = {
-  vacunaAntirrabica: req.body["estadoSalud[vacunaAntirrabica]"] === "true",
-  vacunaTripleFelina: req.body["estadoSalud[vacunaTripleFelina]"] === "true",
-  vacunaLeucemia: req.body["estadoSalud[vacunaLeucemia]"] === "true",
-  esterilizado: req.body["estadoSalud[esterilizado]"] === "true",
-};
+ 
+  let estadoSalud;
+  try {
+    estadoSalud = JSON.parse(req.body.estado_salud);
+  } catch {
+    return res.status(400).json({ message: "estado_salud inválido" });
+  }
 
-const allBooleans = Object.values(estadoSalud).every(val => typeof val === "boolean");
-if (!allBooleans) {
-  return res.status(400).json({ message: "estadoSalud debe tener booleanos válidos" });
-}
+  const allBooleans = Object.values(estadoSalud).every(val => typeof val === "boolean");
+  if (!allBooleans) {
+    return res.status(400).json({ message: "estado_salud debe tener booleanos válidos" });
+  }
 
-req.estadoSalud = estadoSalud;
+  req.estadoSalud = estadoSalud;
+  req.userId = user_id;
 
   next();
 };
