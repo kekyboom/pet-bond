@@ -5,6 +5,7 @@ import axios from "axios";
 import PetGrid from "../components/PetGrid";
 import PetCard from "../components/PetCard";
 import EditPet from "../components/EditPet";
+import profileImg from "../assets/img/profile-default.png"
 
 function Perfil() {
   const { user, token } = useAuth();
@@ -57,7 +58,7 @@ function Perfil() {
     <>
   
       <div className="flex items-center px-15 pt-10">
-        <img className="w-20 h-20 rounded-full" src="https://cdn.pixabay.com/photo/2022/08/28/10/20/profile-picture-7416279_1280.png" alt="Usuario" />
+        <img className="w-20 h-20 rounded-full" src={profileImg} alt="Usuario" />
         <div className="p-5 font-medium text-black">
 
           <div className="font-bold uppercase">{user?.nombre } {user?.apellido }</div>
