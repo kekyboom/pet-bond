@@ -1,7 +1,8 @@
 import { usePetContext } from '../context/PetContext';
-import { Form, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ModalContacto from '../components/ModalContacto';
+import axios from 'axios';
 
 
 function Detalle() {
@@ -9,15 +10,27 @@ function Detalle() {
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const [publicador, setPublicador] = useState(null);
+
 
   useEffect(() => {
+    
     if (!selectedPet) {
+      
       navigate('/');
+    } else {
+      axios .get(`${baseUrl}/usuarios/${selectedPet.user_id}`)
+      .then((res) => {
+        setPublicador(res.data);
+      })
+      .catch((err) => {
+        console.error("Error al obtener el usuario publicador:", err);
+      });
     }
   }, [selectedPet, navigate]);
 
   if (!selectedPet) return null;
-
+console.log("selectedPet:", selectedPet);
   return (
     <div className="max-w-6xl mx-auto p-16">
       <div className="mb-6">
@@ -71,8 +84,8 @@ function Detalle() {
             <p className="font-semibold text-gray-800 text-lg">
               ¿Deseas adoptar a <span className="text-orange-600">{selectedPet.nombre}</span>?
             </p>
-            <p className="text-sm text-gray-500">
-              ¡Contacta a <strong>{selectedPet.usuario || "USUARIO"}</strong>!
+            <p className="text-sm text-gray-500 uppercase">
+              ¡Contacta a <strong>{publicador?.nombre}</strong>!
             </p>
             <button className="bg-pborange hover:bg-orange-300 text-white px-4 py-2 rounded-md shadow cursor-pointer" onClick={() => setModalOpen(true)}>
               Adoptar
@@ -85,9 +98,9 @@ function Detalle() {
       <ModalContacto
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        usuario={selectedPet.usuario}
-        correo={selectedPet.correo} 
-        telefono={selectedPet.telefono} 
+        usuario={publicador?.nombre}
+        correo={publicador?.email} 
+        telefono={publicador?.telefono} 
       />
     </div>
   );

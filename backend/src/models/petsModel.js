@@ -20,17 +20,26 @@ export const createPet = async (pet) => {
   const {
     nombre,
     especie,
-    edadAnios,
-    edadMeses,
     genero,
-    pesoKg,
     region,
     imagen,
     caracter,
     estadoSalud,
     historia,
-    user_id,
+    
   } = pet;
+
+  const edadAnios = parseInt(pet.edad_anios);
+  const edadMeses = parseInt(pet.edad_meses);
+  const pesoKg = parseFloat(pet.peso_kg);
+  const user_id = parseInt(pet.user_id);
+  
+  console.log("DEBUG valores:", {
+  edadAnios: pet.edad_anios,
+  edadMeses: pet.edad_meses,
+  pesoKg: pet.peso_kg,
+  userId: pet.user_id,
+});
 
   const query = `
     INSERT INTO pets (
@@ -57,6 +66,7 @@ export const createPet = async (pet) => {
   ];
 
   const { rows } = await pool.query(query, values);
+
   return rows[0];
 };
 

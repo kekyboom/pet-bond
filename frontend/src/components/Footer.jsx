@@ -11,7 +11,7 @@ function Footer() {
    
                 </div>
                 <hr className="border-pbwhite sm:mx-auto  lg:my-4" />
-                <span className="block text-sm text-pbwhite sm:text-center">© 2023 PetBond - Todos los derechos reservados.</span>
+                <span className="block text-sm text-pbwhite sm:text-center">© 2025 PetBond - Todos los derechos reservados.</span>
             </div>
         </footer>
     );

@@ -28,7 +28,7 @@ function Publicar() {
   const [especie, setespecie] = useState("");
   const [edadAnios, setEdadAnios] = useState("");
   const [edadMeses, setEdadMeses] = useState("");
-  const [peso, setPeso] = useState("");
+  const [pesoKg, setPesoKg] = useState("");
   const [caracter, setCaracter] = useState("");
   const [estadoSalud, setEstadoSalud] = useState({
     vacunaAntirrabica: false,
@@ -36,23 +36,32 @@ function Publicar() {
     vacunaLeucemia: false,
     esterilizado: false,
   });
-  const [info, setInfo] = useState("");
+  const [historia, setHistoria] = useState("");
   const [error, setError] = useState("");
   const [exito, setExito] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const userId = user?.id;
+  const user_id = user?.id ? Number(user.id) : null;
+  
   const baseUrl = import.meta.env.VITE_BASE_URL;
+  const [previewImage, setPreviewImage] = useState(null);
   
   const handleImageChange = (e) => {
-    setImagen(e.target.files[0]);
+  const file = e.target.files[0];
+  setImagen(file);
+  if (file) {
+    const previewUrl = URL.createObjectURL(file);
+    setPreviewImage(previewUrl);
+  } else {
+    setPreviewImage(null);
+  }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setExito(false);
-
+   
     if (
       !imagen ||
       !nombre.trim() ||
@@ -61,31 +70,36 @@ function Publicar() {
       !especie ||
       edadAnios === "" ||
       edadMeses === "" ||
-      !peso.trim() ||
+      !pesoKg.trim() ||
       !caracter.trim() 
     ) {
       setError("Todos los campos son obligatorios.");
+      
       return;
     }
 
+    
+
     try {
       const formData = new FormData();
-      formData.append("imagen", imagen);
+
       formData.append("nombre", nombre);
-      formData.append("region", region);
-      formData.append("genero", genero.toLowerCase() === "femenino" ? "hembra" : "macho");
       formData.append("especie", especie);
-      formData.append("edadAnios", edadAnios);
-      formData.append("edadMeses", edadMeses);
-      formData.append("pesoKg", peso);
+      formData.append("edad_anios", edadAnios);
+      formData.append("edad_meses", edadMeses);
+      formData.append("genero", genero.toLowerCase() === "femenino" ? "hembra" : "macho");
+      formData.append("peso_kg", pesoKg);
+      formData.append("region", region);
       formData.append("caracter", caracter);
-      formData.append("info", info);
-      formData.append("userId", userId);
-      Object.entries(estadoSalud).forEach(([key, value]) => {
-        formData.append(`estadoSalud[${key}]`, value);
-      });
+      formData.append("historia", historia);
+      formData.append("user_id", user_id);
+      
+      formData.append("estado_salud", JSON.stringify(estadoSalud));
+      formData.append("imagen", imagen);
+
 
       const token = localStorage.getItem("token");
+
       
 
       await axios.post(`${baseUrl}/pets`, formData, {
@@ -102,7 +116,7 @@ function Publicar() {
       setespecie("");
       setEdadAnios("");
       setEdadMeses("");
-      setPeso("");
+      setPesoKg("");
       setCaracter("");
       setEstadoSalud({
         vacunaAntirrabica: false,
@@ -110,7 +124,7 @@ function Publicar() {
         vacunaLeucemia: false,
         esterilizado: false,
       });
-      setInfo("");
+      setHistoria("");
     } catch (err) {
       setError(err.response?.data?.message || "Error al publicar la mascota");
     }
@@ -132,17 +146,23 @@ function Publicar() {
             </label>
             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
               <div className="text-center">
-                <svg className="mx-auto size-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path fillRule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clipRule="evenodd"/>
-                </svg>
+
                 <div className="mt-4 flex text-sm text-gray-600">
                   <label htmlFor="file-upload" className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 hover:text-indigo-500">
                     <span>Subir Imagen</span>
                     <input id="file-upload" name="imagen" onChange={handleImageChange} type="file" className="sr-only"/>
                   </label>
-                  <p className="pl-1">o arrastra un archivo</p>
                 </div>
                 <p className="text-xs text-gray-600">PNG, JPG</p>
+                {previewImage && (
+    <div className="mt-4 flex justify-center">
+      <img
+        src={previewImage}
+        alt="Previsualización"
+        className="max-h-48 object-contain rounded-md"
+      />
+    </div>
+  )}
               </div>
             </div>
           </div>
@@ -200,7 +220,7 @@ function Publicar() {
           {/* Peso */}
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-900">Peso (Kg)</label>
-            <input type="number" min="0" step="0.1" value={peso} onChange={(e) => setPeso(e.target.value)} className="w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 text-black"/>
+            <input type="number" min="0" step="0.1" value={pesoKg} onChange={(e) => setPesoKg(e.target.value)} className="w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 text-black"/>
           </div>
 
           {/* Carácter */}
@@ -228,7 +248,7 @@ function Publicar() {
           {/* Info adicional */}
           <div>
             <label className="block mb-1 text-sm font-medium text-gray-900">Información adicional</label>
-            <textarea value={info} onChange={(e) => setInfo(e.target.value)} className="w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 text-black" rows={2}/>
+            <textarea value={historia} onChange={(e) => setHistoria(e.target.value)} className="w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 text-black" rows={2}/>
           </div>
 
           {error && <p className="text-red-500 text-sm">{error}</p>}

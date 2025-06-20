@@ -5,6 +5,8 @@ import { usePetContext } from "../context/PetContext";
 import heroImg from "../assets/img/hero-img.jpg";
 import PetGrid from "../components/PetGrid"
 import PetCard from "../components/PetCard";
+import gatoImg from "../assets/img/cat.png"
+import perroImg from "../assets/img/dog.png"
 
 
 function Inicio() {
@@ -20,26 +22,24 @@ function Inicio() {
   return (
     <div className="w-full min-h-screen">
       {/* HERO */}
-      <div className="relative w-full h-[60vh] md:h-[80vh]">
+      <div className="relative w-full h-[50vh] md:h-[55vh]">
         <img
           src={heroImg} alt="Imagen de fondo de gato y perro" className="w-full h-full object-cover"/>
         
-        {/* Overlay oscuro */}
-        <div className="absolute inset-0"></div>
-
         {/* Contenido centrado */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
           {user ? (
             <>
-              <Link
-                to="/publicar" className="bg-pborange hover:bg-orange-300 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition mb-4">
-                Dar en Adopción
-              </Link>
-              {!mostrarSelector && (
-                <button onClick={() => setMostrarSelector(true)} className="bg-pbblue hover:bg-pbdarkblue text-white font-semibold px-6 py-3 rounded-full shadow-lg transition cursor-pointer">
-                  Adoptar
-                </button>
-              )}
+              <div className="flex gap-4">
+                <Link to="/publicar" className="bg-pborange hover:bg-orange-300 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition">
+                  Dar en Adopción
+                </Link>
+                {!mostrarSelector && (
+                  <button onClick={() => setMostrarSelector(true)} className="bg-pbblue hover:bg-pbdarkblue text-white font-semibold px-6 py-3 rounded-full shadow-lg transition cursor-pointer">
+                    Adoptar
+                  </button>
+                )}
+              </div>
             </>
           ) : (
             <>
@@ -61,13 +61,11 @@ function Inicio() {
             <div className="bg-white p-8 rounded-lg shadow-2xl text-center w-[90%] max-w-md">
               <h2 className="text-2xl font-bold mb-6 text-gray-800">¿QUÉ DESEAS ADOPTAR?</h2>
               <div className="flex justify-center gap-6">
-                <button onClick={() => selectType("gato")} className="flex flex-col items-center bg-pborange hover:bg-orange-400 text-white p-4 rounded-xl shadow-md transition cursor-pointer">
-                  🐱
-                  <span className="mt-1 font-medium">Gato</span>
+                <button onClick={() => selectType("gato")} className="flex flex-col items-center bg-pborange hover:bg-orange-400 text-white p-4 rounded-xl shadow-md transition cursor-pointer justify-center">
+                  <img src={gatoImg} className="h-24"/>
                 </button>
-                <button onClick={() => selectType("perro")} className="flex flex-col items-center bg-pbblue hover:bg-pbdarkblue text-white p-4 rounded-xl shadow-md transition cursor-pointer">
-                  🐶
-                  <span className="mt-1 font-medium">Perro</span>
+                <button onClick={() => selectType("perro")} className="flex flex-col items-center bg-pbblue hover:bg-pbdarkblue text-white p-4 pt-6 rounded-xl shadow-md transition cursor-pointer ">
+                  <img src={perroImg} className="h-22"/>
                 </button>
               </div>
             </div>

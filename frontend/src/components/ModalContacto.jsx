@@ -1,5 +1,5 @@
 
-function ModalContacto({ isOpen, onClose, usuario }) {
+function ModalContacto({ isOpen, onClose, usuario, correo, telefono }) {
 
     if (!isOpen) return null;
 
@@ -10,15 +10,15 @@ function ModalContacto({ isOpen, onClose, usuario }) {
                     X
                 </button>
                 <h2 className="text-lg font-bold">DATOS DE CONTACTO</h2>
-                 <p className="text-sm text-gray-500 mb-4">¡Contacta a "USUARIO"!</p>
+                 <p className="text-sm text-gray-500 mb-4">¡Contacta a {usuario}!</p>
                 <div className="space-y-2 text-sm text-gray-700">
                     <div className="flex items-center gap-2">
                         <span className="text-pbblue">@</span>
-                        <span>correo@correo.com</span>
+                        <span>{correo}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="text-pbblue">📞</span>
-                        <span>+56 1234 5678</span>
+                        <span>+56 {telefono}</span>
                     </div>
                 </div>
             </div>

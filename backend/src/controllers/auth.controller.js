@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { createUser, getUserByEmail, getAllUsers } from '../models/usersModel.js';
+import { createUser, getUserByEmail, getAllUsers, getUserByIdFromDb } from '../models/usersModel.js';
 
 //Registro de Usuarios
 
@@ -58,4 +58,19 @@ export const getUsers = async (req, res, next) => {
     }
   };
   
+export const getUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
 
+    const user = await getUserByIdFromDb(id); 
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    const { nombre, apellido, email, telefono } = user;
+    res.json({ id, nombre, apellido, email, telefono });
+  } catch (error) {
+    next(error);
+  }
+};

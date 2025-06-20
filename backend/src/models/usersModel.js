@@ -21,3 +21,9 @@ export const getAllUsers = async () => {
     const { rows } = await pool.query(query);
     return rows;
   };
+
+export const getUserByIdFromDb = async (id) => {
+  const query = 'SELECT id, nombre, apellido, email, telefono FROM users WHERE id = $1';
+  const result = await pool.query(query, [id]);
+  return result.rows[0];
+};

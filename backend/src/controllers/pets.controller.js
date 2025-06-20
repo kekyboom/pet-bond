@@ -31,6 +31,7 @@ export const getPetsByUser = async (req, res) => {
 
 // POST - Agregar mascota
 export const addPet = async (req, res) => {
+  
   try {
     const {
       nombre,
@@ -41,9 +42,9 @@ export const addPet = async (req, res) => {
       edad_meses,
       peso_kg,
       caracter,
-      info,
-      userId,
-    } = req.body;
+      historia,
+      user_id,
+       } = req.body;
 
     const estado_salud = {
       vacunaAntirrabica: req.body["estadoSalud[vacunaAntirrabica]"] === "true",
@@ -80,9 +81,10 @@ export const addPet = async (req, res) => {
       imagen: imagenUrl || null,
       caracter,
       estado_salud: estado_salud,
-      historia: info,
-      user_id: Number(userId),
+      historia: historia,
+      user_id: Number(user_id),
     };
+
 
     const createdPet = await createPet(petData);
 
@@ -91,6 +93,7 @@ export const addPet = async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Error al registrar mascota" });
   }
+  
 };
 
 // PUT - Actualizar mascota
@@ -109,7 +112,7 @@ export const updatePetById = async (req, res, next) => {
       edad_meses,
       peso_kg,
       caracter,
-      info,
+      historia,
     } = req.body;
 
     const estado_salud = JSON.parse(req.body.estado_salud);
@@ -140,15 +143,11 @@ export const updatePetById = async (req, res, next) => {
       edad_meses,
       peso_kg,
       caracter,
-      historia: req.body.historia,
+      historia,
       user_id: Number(user_id),  
-      estado_salud: {
-        vacunaAntirrabica: estado_salud.vacunaAntirrabica,
-        vacunaTripleFelina: estado_salud.vacunaTripleFelina,
-        vacunaLeucemia: estado_salud.vacunaLeucemia,
-        esterilizado: estado_salud.esterilizado
-      }
+      estado_salud,
     };
+
 
     if (imagenUrl) {
       petData.imagen = imagenUrl;

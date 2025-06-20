@@ -2,7 +2,7 @@ export const validatePetFields = (req, res, next) => {
   console.log("Middleware validatePetFields - req.body:", req.body);
   console.log("Middleware validatePetFields - req.file:", req.file);
 
-  const {
+   const {
     nombre,
     especie,
     edad_anios,
@@ -15,12 +15,11 @@ export const validatePetFields = (req, res, next) => {
     userId, 
   } = req.body;
 
-  
   const user_id = userId || req.userId;
 
   const isPost = req.method === "POST";
 
-  if (
+ if (
     !nombre ||
     !especie ||
     edad_anios == null ||
@@ -36,7 +35,6 @@ export const validatePetFields = (req, res, next) => {
     return res.status(400).json({ message: "Faltan campos obligatorios" });
   }
 
- 
   let estadoSalud;
   try {
     estadoSalud = JSON.parse(req.body.estado_salud);
