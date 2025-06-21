@@ -7,7 +7,7 @@ function QuickFilter() {
     const especie = new URLSearchParams(location.search).get("especie");
     const {filterPetsByTags} = usePetContext();
 
-    const options = ["Santiago", "Macho", "Hembra", "Esterilizado", "Perro", "Gato"];
+    const options = ["Macho", "Hembra", "Esterilizado", "Perro", "Gato"];
     const [activeTags, setActiveTags] = useState([]);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ function QuickFilter() {
         console.log("Tags activos:", updatedTags);
     }
     return (
-        <div className="container mx-auto px-15">
+        <div className="container mx-15">
             <div className="flex flex-wrap gap-2 pt-10 pb-4">
                 {options.map(option => (
                     <button key={option} onClick={()=> toggleTag(option)} 

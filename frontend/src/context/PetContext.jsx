@@ -45,7 +45,7 @@ export function PetProvider({ children }) {
 };
 
   //Aplicar Filtros
- const applyFilters = (tags) => {
+const applyFilters = (tags) => {
   if (tags.length === 0) {
     setPets(allPets);
     return;
@@ -53,26 +53,81 @@ export function PetProvider({ children }) {
 
   const tagsLower = tags.map(tag => tag.toLowerCase());
 
+  // Extraer rangos de edad y peso de tags
+  let edadMin = null;
+  let edadMax = null;
+  let pesoMin = null;
+  let pesoMax = null;
+
+  // Arrays para filtros con múltiples opciones 
+  const selectedRegiones = [];
+  const selectedEspecies = [];
+  const selectedGeneros = [];
+  const selectedSalud = [];
+
+  tagsLower.forEach(tag => {
+    if (tag.startsWith("edad_min:")) edadMin = Number(tag.split(":")[1]);
+    else if (tag.startsWith("edad_max:")) edadMax = Number(tag.split(":")[1]);
+    else if (tag.startsWith("peso_min:")) pesoMin = Number(tag.split(":")[1]);
+    else if (tag.startsWith("peso_max:")) pesoMax = Number(tag.split(":")[1]);
+    else if (["arica y parinacota","tarapacá","antofagasta","atacama","coquimbo","valparaíso","región metropolitana","o'higgins","maule","ñuble","biobío","la araucanía","los ríos","los lagos","aysén","magallanes"].includes(tag)) {
+      selectedRegiones.push(tag);
+    }
+    else if (["perro", "gato"].includes(tag)) {
+      selectedEspecies.push(tag);
+    }
+    else if (["macho", "hembra"].includes(tag)) {
+      selectedGeneros.push(tag);
+    }
+    else if (["vacuna antirrábica","vacuna triple felina","vacuna leucemia","esterilizado"].includes(tag)) {
+      selectedSalud.push(tag);
+    }
+  });
+
   const filtered = allPets.filter(pet => {
     const petEspecie = pet.especie?.toLowerCase();
     const petGenero = pet.genero?.toLowerCase();
     const petRegion = pet.region?.toLowerCase();
-    const petEsterilizado = pet.estado_salud?.esterilizado;
+    const estadoSalud = pet.estado_salud || {};
 
-    return tagsLower.every(tag => {
-      if (tag === "perro" || tag === "gato") return petEspecie === tag;
-      if (tag === "macho" || tag === "hembra") return petGenero === tag;
-      if (tag === "santiago") return petRegion === "santiago";
-      if (tag === "esterilizado") return petEsterilizado === true;
-      return true; 
-    });
+
+    const petEdad = Number(pet.edad_anios) || 0;
+    const petPeso = Number(pet.peso_kg) || 0;
+
+    // Region
+    if (selectedRegiones.length > 0 && !selectedRegiones.includes(petRegion)) return false;
+
+    // Especie
+    if (selectedEspecies.length > 0 && !selectedEspecies.includes(petEspecie)) return false;
+
+    // Género
+    if (selectedGeneros.length > 0 && !selectedGeneros.includes(petGenero)) return false;
+
+    // Salud 
+    if (selectedSalud.length > 0) {
+      const matchesSome = selectedSalud.some(saludTag => {
+        if (saludTag === "esterilizado") return estadoSalud.esterilizado === true;
+        if (saludTag === "vacuna antirrábica") return pet.estado_salud?.vacunaAntirrabica === true;
+        if (saludTag === "vacuna triple felina") return pet.estado_salud?.vacunaTripleFelina === true;
+        if (saludTag === "vacuna leucemia") return pet.estado_salud?.vacunaLeucemia === true;
+        return false;
+      });
+      if (!matchesSome) return false;
+    }
+
+    // Rango edad
+    if (edadMin !== null && petEdad < edadMin) return false;
+    if (edadMax !== null && petEdad > edadMax) return false;
+
+    // Rango peso
+    if (pesoMin !== null && petPeso < pesoMin) return false;
+    if (pesoMax !== null && petPeso > pesoMax) return false;
+
+    return true;
   });
 
   setPets(filtered);
 };
-
-
-
   ////Agregar nueva mascota
   const addPet = async (newPet) => {
     try {
