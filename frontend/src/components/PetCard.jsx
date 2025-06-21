@@ -2,10 +2,10 @@ import { usePetContext } from "../context/PetContext";
 import { useNavigate } from "react-router-dom";
 import femaleIcon from "../assets/img/hembra.png";
 import maleIcon from "../assets/img/macho.png";
+import vistaPrevia from "../assets/img/vista.png";
 
 
 function PetCard({ pet, editable = false, onEdit, onDelete, showViewMore = true }) {
-  console.log("PetCard recibe pet:", pet);
   
   const { setSelectedPet} = usePetContext();
   const navigate = useNavigate();
@@ -49,20 +49,34 @@ function PetCard({ pet, editable = false, onEdit, onDelete, showViewMore = true 
         </span>
 
         {showViewMore && (
-          <button onClick={handleViewMore} className="bg-pborange hover:bg-pbblue text-white font-semibold py-2 px-6 rounded-full shadow-lg transition block w-fit mx-auto text-center cursor-pointer">
+          <button onClick={handleViewMore} className="bg-pborange hover:bg-orange-400 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition block w-fit mx-auto text-center cursor-pointer">
             Ver Más
           </button>
         )}
 
         {editable && (
-          <div className="flex justify-center gap-3 mt-4">
-            <button onClick={() => onEdit(pet)} className="bg-pborange hover:bg-pbblue text-white px-4 py-1 rounded cursor-pointer">
-              Editar
-            </button>
-            <button onClick={() => onDelete(pet)} className="bg-pbblue hover:bg-pborange text-white px-4 py-1 rounded cursor-pointer" >
-              ¡Fue Adoptado!
-            </button>
-          </div>
+          <>
+            <div className="flex flex-col items-center gap-3 mt-4">
+              <div className="flex gap-3">
+                <button onClick={() => onEdit(pet)} className="bg-pborange hover:bg-orange-400 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition block w-fit mx-auto text-center cursor-pointer">
+                  Editar
+                </button>
+                <button onClick={() => onDelete(pet)} className="bg-pbblue hover:bg-pbdarkblue text-white font-semibold py-2 px-6 rounded-full shadow-lg transition block w-fit mx-auto text-center cursor-pointer" >
+                  ¡Fue Adoptado!
+                </button>
+                
+                
+                
+              </div>  
+              
+            </div>
+            <div className="flex justify-items-start pt-5 ">  
+                <button onClick={handleViewMore}>
+                  <img src={vistaPrevia} className="h-5 cursor-pointer"/>
+                </button>
+                <p onClick={handleViewMore}  className="px-2 font-bold text-pbdarkblue cursor-pointer">VER</p>   
+            </div>
+          </>
         )}
       </div>
     </div>

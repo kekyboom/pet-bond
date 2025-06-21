@@ -16,65 +16,61 @@ export function PetProvider({ children }) {
 
 
   //Cargar todas las mascotas
-  const loadPets = async (especie) => {
-    setLoading(true);
-    setError(null);
-    setSelectedEspecie(especie);
-    try { 
-      const data = await fetchPets(especie);
-
-    // Normalizar la especie a minúsculas para evitar problemas
+  const loadPets = async (especie = null) => {
+  setLoading(true);
+  setError(null);
+  try {
+    const data = await fetchPets();
     const normalizedData = data.map(pet => ({
       ...pet,
       especie: pet.especie?.trim().toLowerCase() || ""
     }));
 
-    setPets(normalizedData);
     setAllPets(normalizedData);
-    } catch (err) {
-      setError(err.message || "Error al cargar mascotas");
-    } finally {
-      setLoading(false);
+
+    if (especie) {
+      const especieLower = especie.toLowerCase();
+      const filtered = normalizedData.filter(p => p.especie === especieLower);
+      setPets(filtered);
+      setSelectedEspecie(especieLower);
+    } else {
+      setPets(normalizedData);
+      setSelectedEspecie(null);
     }
-    
-  };
+  } catch (err) {
+    setError(err.message || "Error al cargar mascotas");
+  } finally {
+    setLoading(false);
+  }
+};
 
   //Aplicar Filtros
-  const applyFilters = (petsData, tags) => {
+ const applyFilters = (tags) => {
   if (tags.length === 0) {
-    setPets(petsData);
+    setPets(allPets);
     return;
   }
 
-  const especies = ["Perro", "Gato"];
-   const selectedEspecies = tags
-    .map(t => t.toLowerCase())
-    .filter(tag => especies.includes(tag));
-  const otherTags = tags.filter(tag => !especies.includes(tag.toLowerCase()));
+  const tagsLower = tags.map(tag => tag.toLowerCase());
 
-  const filtered = petsData.filter(pet => {
+  const filtered = allPets.filter(pet => {
     const petEspecie = pet.especie?.toLowerCase();
+    const petGenero = pet.genero?.toLowerCase();
+    const petRegion = pet.region?.toLowerCase();
+    const petEsterilizado = pet.estado_salud?.esterilizado;
 
-    if (selectedEspecies.length > 0) {
-      const matchEspecie = selectedEspecies.some(
-        especie => especie.toLowerCase() === petEspecie
-      );
-      if (!matchEspecie) return false;
-    }
-
-    const matchOtherTags = otherTags.every(tag => {
-      if (tag === "Santiago") return pet.region === "Santiago";
-      if (tag === "Macho") return pet.genero?.toLowerCase() === "macho";
-      if (tag === "Hembra") return pet.genero?.toLowerCase() === "hembra";
-      if (tag === "Esterilizado") return pet.estado_salud?.esterilizado === true;
-      return true;
+    return tagsLower.every(tag => {
+      if (tag === "perro" || tag === "gato") return petEspecie === tag;
+      if (tag === "macho" || tag === "hembra") return petGenero === tag;
+      if (tag === "santiago") return petRegion === "santiago";
+      if (tag === "esterilizado") return petEsterilizado === true;
+      return true; 
     });
-
-    return matchOtherTags;
   });
 
   setPets(filtered);
 };
+
 
 
   ////Agregar nueva mascota
@@ -102,7 +98,7 @@ export function PetProvider({ children }) {
   //FIltrar Mascotas con los filtros
   const filterPetsByTags = (tags) => {
     setActiveTags(tags); 
-    applyFilters(allPets, tags); 
+    applyFilters( tags); 
   };
 
   
@@ -118,9 +114,8 @@ export function PetProvider({ children }) {
   };
 
   useEffect(() => {
-    loadPets();
+  loadPets();
   }, []);
-
 
   return (
     <PetContext.Provider

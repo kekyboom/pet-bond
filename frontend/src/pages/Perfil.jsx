@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { usePetContext } from "../context/PetContext";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
@@ -12,7 +12,15 @@ function Perfil() {
   const { pets, loading, error, setPets, updatePet} = usePetContext();
   const [editingPet, setEditingPet] = useState(null);
   const baseUrl = import.meta.env.VITE_BASE_URL;
-
+  const [vistasRecientes, setVistasRecientes] = useState([]);
+  
+   useEffect(() => {
+    if (user, token) {
+      axios.get(`${baseUrl}/vistas/${user.id}`)
+        .then((res) => setVistasRecientes(res.data))
+        .catch((err) => console.error("Error al cargar vistas recientes:", err));
+    }
+  }, [user, token]);
    
   const userPets = useMemo(() => {
     if (!user || !pets) return[];
@@ -40,6 +48,8 @@ function Perfil() {
         },
       }
     );
+
+ 
 
   setPets((prev) =>
         prev.map((pet) => (pet.id === editingPet.id ? response.data : pet))
@@ -93,11 +103,15 @@ function Perfil() {
       )}
 
       <p className="px-16 py-10 text-lg uppercase">Vistas Recientemente</p>
-      <PetGrid>
-        {pets.slice(0, 4).map((pet) => (
-          <PetCard key={pet.id} pet={pet} />
-        ))}
-      </PetGrid>
+      {vistasRecientes.length === 0 ? (
+        <p className="px-16 pb-20">No has visto ninguna mascota recientemente.</p>
+      ) : (
+        <PetGrid>
+          {vistasRecientes.map((pet) => (
+            <PetCard key={pet.id} pet={pet} />
+          ))}
+        </PetGrid>
+      )}  
 
       {/* Modal de edición */}
       {editingPet && (
