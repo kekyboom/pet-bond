@@ -186,9 +186,7 @@ const applyFilters = (tags) => {
         addPet,
         updatePet,
         filterPetsByTags,
-        selectedEspecie,
         deletePet,
-        activeTags,
       }}
     >
       {children}
