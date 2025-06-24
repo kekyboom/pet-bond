@@ -1,5 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { usePetContext } from "../context/PetContext";
+
 
 const regionesChile = [
   "Arica y Parinacota",
@@ -21,6 +24,8 @@ const regionesChile = [
 ];
 
 function Publicar() {
+  const navigate = useNavigate();
+  
   const [imagen, setImagen] = useState(null);
   const [nombre, setNombre] = useState("");
   const [region, setRegion] = useState("");
@@ -39,6 +44,9 @@ function Publicar() {
   const [historia, setHistoria] = useState("");
   const [error, setError] = useState("");
   const [exito, setExito] = useState(false);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { loadPets } = usePetContext(); 
 
   const user = JSON.parse(localStorage.getItem("user"));
   const user_id = user?.id ? Number(user.id) : null;
@@ -59,6 +67,9 @@ function Publicar() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+     if (isSubmitting) return; 
+    setIsSubmitting(true);
+
     setError("");
     setExito(false);
    
@@ -97,10 +108,7 @@ function Publicar() {
       formData.append("estado_salud", JSON.stringify(estadoSalud));
       formData.append("imagen", imagen);
 
-
       const token = localStorage.getItem("token");
-
-      
 
       await axios.post(`${baseUrl}/pets`, formData, {
         headers: {
@@ -108,7 +116,11 @@ function Publicar() {
         },
       });
 
+      await loadPets();
+
       setExito(true);
+
+      //Limpiar el formulario
       setImagen(null);
       setNombre("");
       setRegion("");
@@ -125,10 +137,15 @@ function Publicar() {
         esterilizado: false,
       });
       setHistoria("");
-    } catch (err) {
-      setError(err.response?.data?.message || "Error al publicar la mascota");
-    }
-    console.log("imagen", imagen)
+
+      setTimeout(() => {
+        navigate("/perfil");
+      }, 1000);
+
+      } catch (err) {
+        setError(err.response?.data?.message || "Error al publicar la mascota");
+      }
+    
   };
 
   return (
@@ -254,10 +271,11 @@ function Publicar() {
           {error && <p className="text-red-500 text-sm">{error}</p>}
           {exito && <p className="text-green-600 text-sm">¡Mascota publicada con éxito!</p>}
 
-          <button type="submit" className="w-full bg-pborange hover:bg-orange-300 text-white font-semibold py-2.5 rounded-lg">
-            Publicar
+          <button type="submit" disabled={isSubmitting} className={`w-full bg-pborange hover:bg-orange-300 text-white font-semibold py-2.5 rounded-lg ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}>
+            {isSubmitting ? "Publicando..." : "Publicar"}
           </button>
         </form>
+        
       </div>
     </section>
   );

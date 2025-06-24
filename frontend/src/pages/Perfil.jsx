@@ -9,13 +9,13 @@ import profileImg from "../assets/img/profile-default.png"
 
 function Perfil() {
   const { user, token } = useAuth();
-  const { pets, loading, error, setPets, updatePet} = usePetContext();
+  const { pets, loading, error, setPets} = usePetContext();
   const [editingPet, setEditingPet] = useState(null);
   const baseUrl = import.meta.env.VITE_BASE_URL;
   const [vistasRecientes, setVistasRecientes] = useState([]);
   
    useEffect(() => {
-    if (user, token) {
+    if (user && token) {
       axios.get(`${baseUrl}/vistas/${user.id}`)
         .then((res) => setVistasRecientes(res.data))
         .catch((err) => console.error("Error al cargar vistas recientes:", err));
@@ -49,8 +49,7 @@ function Perfil() {
       }
     );
 
- 
-
+    
   setPets((prev) =>
         prev.map((pet) => (pet.id === editingPet.id ? response.data : pet))
       );
@@ -64,6 +63,7 @@ function Perfil() {
   if (loading) return <p className="text-center mt-4">Cargando mascotas...</p>;
   if (error) return <p className="text-center mt-4 text-red-500">{error}</p>;
 
+  
   return (
     <>
   
@@ -92,6 +92,8 @@ function Perfil() {
                     },
                   });
                   setPets((prev) => prev.filter((p) => p.id !== pet.id));
+                  
+                  setVistasRecientes((prev) => prev.filter((v) => v.id !== pet.id))
                 } catch (error) {
                   alert("Error al eliminar la mascota");
                   console.error(error);

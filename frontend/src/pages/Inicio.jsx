@@ -74,13 +74,19 @@ function Inicio() {
       </div>
 
       {/* EXPLORA */}
-      <div className="px-4 py-10">
-        <p className="text-lg uppercase mb-6 mx-16">Explora</p>
+      <div>
+        <p className="text-lg uppercase pt-10 mb-6 mx-16">Explora</p>
+        
         <PetGrid>
           {pets.slice(0, 12).map((pet) => (
             <PetCard key={pet.id} pet={pet} />
           ))}
         </PetGrid>
+        <div className="px-16 pb-16">
+          <Link to="/mascotas" className="bg-pbblue hover:bg-pbdarkblue text-white font-semibold px-6 py-3 rounded-full shadow-lg transition cursor-pointer">
+            Ver Más     
+          </Link>
+        </div>
       </div>
     </div>
   );

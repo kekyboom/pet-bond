@@ -38,7 +38,7 @@ const RegisterPage = () => {
     try {
       await register({ nombre, apellido, telefono, email, password });
       alert("¡Cuenta creada con éxito! Redirigiendo...");
-      setTimeout (navigate("/login"),2000);
+      setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       setError(error.message || "Error al crear la cuenta");
     }
