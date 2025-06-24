@@ -84,7 +84,7 @@ function EditPet({ pet, user, onClose, onSave }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 afacad-flux-reg">
       <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-lg overflow-auto max-h-[90vh]">
         <h2 className="text-xl font-bold mb-4">Editar Mascota</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -92,7 +92,11 @@ function EditPet({ pet, user, onClose, onSave }) {
           <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} className="w-full p-2 border rounded" />
 
           <label className="block text-sm">Especie</label>
-          <input type="text" name="especie" value={formData.especie} onChange={handleChange} className="w-full p-2 border rounded" />
+          <select type="text" name="especie" value={formData.especie} onChange={handleChange} className="w-full p-2 border rounded">
+            <option value="">Selecciona especie</option>
+            <option value="gato">Gato</option>
+            <option value="perro">Perro</option>
+          </select> 
 
           <label className="block text-sm">Edad (años)</label>
           <input type="number" name="edadAnios" value={formData.edadAnios} onChange={handleChange} className="w-full p-2 border rounded" />
@@ -111,7 +115,25 @@ function EditPet({ pet, user, onClose, onSave }) {
           <input type="number" name="pesoKg" value={formData.pesoKg} onChange={handleChange} className="w-full p-2 border rounded" />
 
           <label className="block text-sm">Región</label>
-          <input type="text" name="region" value={formData.region} onChange={handleChange} className="w-full p-2 border rounded" />
+          <select type="text" name="region" value={formData.region} onChange={handleChange} className="w-full p-2 border rounded">
+            <option value="">Selecciona Región</option>
+            <option value="Arica y Parinacota">Arica y Parinacota</option>
+            <option value="Tarapacá">Tarapacá</option>    
+            <option value="Antofagasta">Antofagasta</option>
+            <option value="Atacama">Atacama</option>
+            <option value="Coquimbo">Coquimbo</option>   
+            <option value="Valparaíso">Valparaíso</option>
+            <option value="Región Metropolitana">Región Metropolitana</option>
+            <option value="O'Higgins">O'Higgins</option>   
+            <option value="Maule">Maule</option>
+            <option value="Ñuble">Ñuble</option>    
+            <option value="Biobío">Biobío</option>
+            <option value="La Araucanía">La Araucanía</option>
+            <option value="Los Ríos">Los Ríos</option>   
+            <option value="Los Lagos">Los Lagos</option>
+            <option value="Aysén">Aysén</option>
+            <option value="Magallanes">Magallanes</option>   
+          </select> 
 
           <label className="block text-sm">Imagen</label>
           {imagenPreview && (
@@ -146,8 +168,8 @@ function EditPet({ pet, user, onClose, onSave }) {
           </fieldset>
 
           <div className="flex justify-center pt-4 gap-4">
-            <button type="submit" className="bg-pbblue text-white px-4 rounded">Guardar</button>
-            <button type="button" onClick={onClose} className="bg-pborange text-white px-4 rounded">Cancelar</button>
+            <button type="submit" className="bg-pbblue text-white px-4 rounded cursor-pointer">Guardar</button>
+            <button type="button" onClick={onClose} className="bg-pborange text-white px-4 rounded cursor-pointer">Cancelar</button>
           </div>
         </form>
       </div>

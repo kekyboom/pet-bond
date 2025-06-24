@@ -49,7 +49,7 @@ function Detalle() {
 
   if (!selectedPet) return null;
     return (
-      <div className="max-w-6xl mx-auto p-16">
+      <div className="max-w-6xl mx-auto p-16 afacad-flux-reg">
         <div className="mb-6">
           <img src={selectedPet.imagen.startsWith("http") ? selectedPet.imagen : `${baseUrl}${selectedPet.imagen}`} alt={`Foto de ${selectedPet.nombre}`} className="w-full max-h-[800px] object-cover rounded-2xl"/>
         </div>
@@ -102,10 +102,20 @@ function Detalle() {
                 ¿Deseas adoptar a <span className="text-orange-600">{selectedPet.nombre}</span>?
               </p>
               <p className="text-sm text-gray-500 uppercase">
-                ¡Contacta a <strong>{publicador?.nombre}</strong>!
+                {user ? (
+                  <>¡Contacta a <strong>{publicador?.nombre}</strong>!</>
+                ) : (
+                  <>Debes iniciar sesión para ver el contacto.</>
+                )}
               </p>
-              <button className="bg-pborange hover:bg-orange-300 text-white px-4 py-2 rounded-md shadow cursor-pointer" onClick={() => setModalOpen(true)}>
-                Adoptar
+              <button className="bg-pborange hover:bg-orange-300 text-white px-4 py-2 rounded-md shadow cursor-pointer" onClick={() => {
+                if (!user) {
+                  navigate("/login");
+                } else {
+                  setModalOpen(true);
+                }
+              }}>
+                {user ? "Adoptar" : "Inicia sesión"}
               </button>
             </div>
           </div>

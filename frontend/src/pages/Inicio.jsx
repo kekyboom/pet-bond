@@ -27,7 +27,7 @@ function Inicio() {
           src={heroImg} alt="Imagen de fondo de gato y perro" className="w-full h-full object-cover"/>
         
         {/* Contenido centrado */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10 afacad-flux-reg">
           {user ? (
             <>
               <div className="flex gap-4">
@@ -43,7 +43,7 @@ function Inicio() {
             </>
           ) : (
             <>
-              <h1 className="text-white text-3xl sm:text-4xl font-bold mb-6 uppercase">
+              <h1 className="text-white knewave-regular text-3xl sm:text-4xl font-bold mb-6 uppercase ">
                 Haz que su historia comience contigo.
               </h1>
               <Link to="/registro">
@@ -57,7 +57,7 @@ function Inicio() {
 
         {/* Selector */}
         {mostrarSelector && (
-          <div className="absolute inset-0 flex items-center justify-center z-20">
+          <div className="absolute inset-0 flex items-center justify-center z-20 ">
             <div className="bg-white p-8 rounded-lg shadow-2xl text-center w-[90%] max-w-md">
               <h2 className="text-2xl font-bold mb-6 text-gray-800">¿QUÉ DESEAS ADOPTAR?</h2>
               <div className="flex justify-center gap-6">

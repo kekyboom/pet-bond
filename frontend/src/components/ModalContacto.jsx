@@ -6,7 +6,7 @@ function ModalContacto({ isOpen, onClose, usuario, correo, telefono }) {
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 w-[300px] relative text-center">
-                <button onClick={onClose} className="absolute top-3 right-3 text-pborange">
+                <button onClick={onClose} className="absolute top-3 right-3 text-pborange cursor-pointer">
                     X
                 </button>
                 <h2 className="text-lg font-bold">DATOS DE CONTACTO</h2>

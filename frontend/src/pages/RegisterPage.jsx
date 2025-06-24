@@ -45,7 +45,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <section className="bg-pbwhite py-20 flex items-center justify-center">
+    <section className="bg-pbwhite py-20 flex items-center justify-center afacad-flux-reg">
       <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-6 border border-gray-300">
         <h1 className="text-2xl font-bold text-center text-gray-900 mb-4">
           Crear una cuenta

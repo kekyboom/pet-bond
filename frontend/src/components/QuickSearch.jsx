@@ -30,7 +30,7 @@ function QuickFilter() {
         console.log("Tags activos:", updatedTags);
     }
     return (
-        <div className="container mx-15">
+        <div className="container mx-15 afacad-flux-reg">
             <div className="flex flex-wrap gap-2 pt-10 pb-4">
                 {options.map(option => (
                     <button key={option} onClick={()=> toggleTag(option)} 

@@ -67,7 +67,7 @@ function Perfil() {
   return (
     <>
   
-      <div className="flex items-center px-15 pt-10">
+      <div className="flex items-center px-15 pt-10 afacad-flux-reg">
         <img className="w-20 h-20 rounded-full" src={profileImg} alt="Usuario" />
         <div className="p-5 font-medium text-black">
 
@@ -77,7 +77,7 @@ function Perfil() {
         </div>
       </div>
       
-      <p className="px-16 py-10 text-lg uppercase">Publicaciones</p>
+      <p className="px-16 py-10 text-lg uppercase afacad-flux-reg">Publicaciones</p>
       {userPets.length === 0 ? (
         <p className="px-16">No has publicado ninguna mascota todavía.</p>
         ) : (
@@ -102,9 +102,9 @@ function Perfil() {
         </PetGrid>
       )}
 
-      <p className="px-16 py-10 text-lg uppercase">Vistas Recientemente</p>
+      <p className="px-16 py-10 text-lg uppercase afacad-flux-reg">Vistas Recientemente</p>
       {vistasRecientes.length === 0 ? (
-        <p className="px-16 pb-20">No has visto ninguna mascota recientemente.</p>
+        <p className="px-16 pb-20 afacad-flux-reg">No has visto ninguna mascota recientemente.</p>
       ) : (
         <PetGrid>
           {vistasRecientes.map((pet) => (

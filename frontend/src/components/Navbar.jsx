@@ -9,7 +9,7 @@ function Navbar() {
   const location = useLocation(); 
 
   return (
-    <nav className="w-full sticky bg-pbwhite shadow-xl">
+    <nav className="w-full sticky bg-pbwhite shadow-xl afacad-flux-reg">
       <div className="flex flex-wrap items-center justify-between px-20 py-2">
         {/* Logo */}
         <a href="/">

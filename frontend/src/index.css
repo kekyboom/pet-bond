@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Anton+SC&family=Imperial+Script&family=Knewave&family=Maven+Pro:wght@400..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
 @import "tailwindcss";
+
 
 @theme {
     --color-pbblue: #66B9BF;
@@ -6,4 +9,20 @@
     --color-pbwhite: #F0F2F1;
     --color-pbdarkblue: #07889B;
     --color-pbfucsia: #FF6994;
+}
+
+.knewave-regular {
+  font-family: "Knewave", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.afacad-flux-reg {
+  font-family: "Afacad Flux", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0;
 }

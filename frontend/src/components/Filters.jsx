@@ -97,7 +97,7 @@ function Filter() {
   };
   
   return (
-    <div className="container mx-auto px-15 pb-5">
+    <div className="container mx-auto px-15 pb-5 afacad-flux-reg">
       <button
         onClick={() => setShowFilters(!showFilters)}
         className="mb-4 text-sm text-pbdarkblue hover:underline uppercase cursor-pointer font-bold"
@@ -107,7 +107,7 @@ function Filter() {
 
       {showFilters && (
         <>
-          <div className="w-full flex flex-wrap items-start gap-4 relative z-10">
+          <div className="w-full flex flex-wrap items-start gap-4 relative z-10 ">
             {Object.entries(filterOptions).map(([key, options]) => (
               <div key={key} className="relative">
                 <div onClick={() => toggleDropdown(key)} className="flex items-center border rounded px-3 py-1 text-sm bg-white cursor-pointer hover:bg-gray-50 min-w-[160px]">

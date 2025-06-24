@@ -13,16 +13,29 @@ const Login = () => {
   e.preventDefault();
 
   try {
-    await login(email, password); 
-    navigate("/");
-  } catch (err) {
-    console.error("Error al iniciar sesión:", err);
-    alert("Error al conectar con el servidor");
-  }
+      await login(email, password);
+      navigate("/");
+    } catch (err) {
+      console.error("Error al iniciar sesión:", err);
+
+      if (err.response) {
+        if (err.response.status === 404) {
+          alert("Usuario no encontrado. Verifica tu correo electrónico.");
+        } else if (err.response.status === 401) {
+          alert("Contraseña incorrecta.");
+        } else {
+          alert("Error al iniciar sesión. Intenta nuevamente.");
+        }
+      } else if (err.request) {
+        alert("No se pudo conectar con el servidor.");
+      } else {
+        alert("Error inesperado al iniciar sesión.");
+      }
+    }
   };
 
   return (
-    <section className="bg-pbwhite h-screen flex items-center justify-center">
+    <section className="bg-pbwhite h-screen flex items-center justify-center afacad-flux-reg">
       <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-6 border border-gray-300">
         <h1 className="text-2xl font-bold text-center text-gray-900 mb-4">
           Iniciar Sesión
@@ -65,7 +78,7 @@ const Login = () => {
 
           <p className="text-center text-sm text-gray-700 pt-2">
             ¿No tienes una cuenta?{" "}
-            <Link to="/registro">
+            <Link className="text-pbfucsia hover:underline" to="/registro">
               Regístrate
             </Link>
           </p>

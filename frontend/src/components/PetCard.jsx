@@ -18,7 +18,7 @@ function PetCard({ pet, editable = false, onEdit, onDelete, showViewMore = true 
 
   return (
     
-    <div className="w-full max-w bg-white shadow-md rounded-xl duration-500 hover:scale-102 hover:shadow-xl relative">
+    <div className="w-full max-w bg-white shadow-md rounded-xl duration-500 hover:scale-102 hover:shadow-xl relative afacad-flux-reg">
       <div className="relative w-full">
         <img src={pet.imagen.startsWith("http") ? pet.imagen : `${baseUrl}${pet.imagen}`} alt={`Foto de ${pet.nombre}`} className="h-80 w-full object-cover rounded-t-xl"/>
         <div className="absolute top-0 left-0 rounded-br-xl">
