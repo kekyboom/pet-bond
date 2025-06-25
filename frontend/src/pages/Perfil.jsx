@@ -109,7 +109,7 @@ function Perfil() {
         <p className="px-16 pb-20 afacad-flux-reg">No has visto ninguna mascota recientemente.</p>
       ) : (
         <PetGrid>
-          {vistasRecientes.map((pet) => (
+          {vistasRecientes.slice(0,4).map((pet) => (
             <PetCard key={pet.id} pet={pet} />
           ))}
         </PetGrid>
